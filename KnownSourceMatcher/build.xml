@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+<project name="Ant-Test" default="main" basedir=".">
+	<!-- 
+	
+	This is the ant build file for this project. It is used to automate the building,
+	and testing of the python scripts contained herein - it is really useful. If you don't
+	have ant / never heard of it, its probably worth looking at how it works. But for
+	now if you install the Eclipse IDE with pydev to build this project, then ant should be
+	already installed for you. Simply run this script within Eclipse and you'll see building
+	and testing run automatically.
+	
+	Rob.
+	-->
+	
+	<!-- Sets variables which can later be used. -->
+	<property name="src.dir" location="src" />
+	<property name="lib.dir" location="lib" />
+	<property name="test.dir" location="test" />
+	<property name="dist.dir" location="dist" />
+	<property name="scratch.dir" location="scratch" />
+
+	<!-- Deletes the existing build, docs and dist directory -->
+	<target name="clean">
+		<delete dir="${dist.dir}" />
+		<delete dir="${test.dir}" />
+		<delete dir="${scratch.dir}" />
+	</target>
+
+	<!-- Creates the build, docs and dist directory -->
+	<target name="makedir">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${test.dir}" />
+		<mkdir dir="${scratch.dir}" />
+	</target>
+
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- COPY FILES AND PREPARE FOR TESTS  	-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	
+	<target name="copy" depends="clean, makedir">
+		
+		<!-- Copy source code to the distribution direcotry. -->
+		<copy todir="${dist.dir}" overwrite="true">
+			<fileset dir="${src.dir}/Match">
+				<include name="**/*" />
+				<exclude name="**/__init__.py" />
+			</fileset>
+		</copy>
+		
+		<!-- Copy source code to the test direcotry. -->
+		<copy todir="${test.dir}" overwrite="true">
+		  <fileset dir="${src.dir}/Match">
+		    <include name="**/*" />
+		  	<exclude name="**/__init__.py" />
+		  </fileset>
+		</copy>
+		
+		<!-- Copy data to / setup the test directory. -->
+		<copy todir="${test.dir}/pfds" overwrite="true">
+			<fileset dir="${lib.dir}/pfds">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<!-- Copy data to / setup the test directory. -->
+		<copy todir="${test.dir}/phcxs" overwrite="true">
+			<fileset dir="${lib.dir}/phcxs">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<copy file="${lib.dir}/psrcat_web.db" tofile="${test.dir}/psrcat_web.db"/>
+		<copy file="${lib.dir}/psrcat_web_addon.db" tofile="${test.dir}/psrcat_web_addon.db"/>
+		<copy file="${lib.dir}/phcxPaths.txt" tofile="${test.dir}/phcxPaths.txt"/>
+		<copy file="${lib.dir}/pfdPaths.txt" tofile="${test.dir}/pfdPaths.txt"/>
+		<copy file="${lib.dir}/classifierPaths.txt" tofile="${test.dir}/classifierPaths.txt"/>
+	</target>
+	
+
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- 			THE TESTS  				-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	
+	<!-- Executes score generation script on sample of PHCX files. -->
+	<target name="phcx_1" depends="copy">
+		<description>Test on single directory of PHCX candidates</description>
+			
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o phcx_1.txt -p phcxs/directory_1 --psrcat psrcat_web.db" />
+		</exec>
+			
+	</target>
+	
+	<!-- Executes score generation script on sample of PHCX files. -->
+	<target name="phcx_2" depends="phcx_1">
+		<description>Test on directories of PHCX candidates</description>
+					
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o phcx_2.txt -p phcxs/directory_2 --psrcat psrcat_web.db" />
+		</exec>
+					
+	</target>
+		
+	<!-- Executes score generation script on sample of PHCX files. -->
+	<target name="phcx_3" depends="phcx_2">
+		<description>Test on individual candidate</description>
+							
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o phcx_3.txt -p /Users/rob/Documents/workspace/KnownSourceMatcher/test/phcxs/directory_3/2008-11-18-07:59:57.12.fil_sigproc_001.phcx.gz --psrcat psrcat_web.db" />
+		</exec>
+		
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o phcx_3.txt -p /Users/rob/Documents/workspace/KnownSourceMatcher/test/phcxs/directory_3/2008-11-20-05:26:01.01.fil_sigproc_076.phcx.gz --psrcat psrcat_web.db" />
+		</exec>			
+	</target>
+
+	<!-- Executes score generation script on sample of PHCX files. -->
+	<target name="phcx_4" depends="phcx_3">
+		<description>Test on file containing candidate paths</description>
+							
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o phcx_4.txt -p /Users/rob/Documents/workspace/KnownSourceMatcher/test/phcxPaths.txt --psrcat psrcat_web.db" />
+		</exec>
+	
+	</target>
+	
+	<!-- Executes score generation script on sample of PFD files. -->
+	<target name="phcx_5" depends="phcx_4">
+		<description>Test on classifier output file</description>
+									
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o phcx_5.txt -p /Users/rob/Documents/workspace/KnownSourceMatcher/test/classifierPaths.txt --psrcat psrcat_web.db" />
+		</exec>
+			
+	</target>
+
+	<!-- Executes score generation script on sample of PFD files. -->
+	<target name="pfd_1" depends="copy">
+		<description>Test on single directory of PFD candidates</description>
+			
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o pfd_1.txt -p pfds/directory_1 --psrcat psrcat_web.db" />
+		</exec>
+			
+	</target>
+	
+	<!-- Executes score generation script on sample of PHCX files. -->
+	<target name="pfd_2" depends="pfd_1">
+		<description>Test on directories of PFD candidates</description>
+					
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o pfd_2.txt -p pfds/directory_2 --psrcat psrcat_web.db" />
+		</exec>
+					
+	</target>
+		
+	<!-- Executes score generation script on sample of PFD files. -->
+	<target name="pfd_3" depends="pfd_2">
+		<description>Test on individual candidate</description>
+							
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o pfd_3.txt -p /Users/rob/Documents/workspace/KnownSourceMatcher/test/pfds/directory_3/L143770_SAP1_BEAM1_DM35.40_Z0_ACCEL_Cand_1.pfd --psrcat psrcat_web.db" />
+		</exec>
+		
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o pfd_3.txt -p /Users/rob/Documents/workspace/KnownSourceMatcher/test/pfds/directory_3/L80011_SAP0_BEAM5_DM17.76_Z0_ACCEL_Cand_2.pfd --psrcat psrcat_web.db" />
+		</exec>			
+	</target>
+
+	<!-- Executes score generation script on sample of PFD files. -->
+	<target name="pfd_4" depends="pfd_3">
+		<description>Test on file containing candidate paths</description>
+							
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o pfd_4.txt -p /Users/rob/Documents/workspace/KnownSourceMatcher/test/pfdPaths.txt --psrcat psrcat_web.db" />
+		</exec>
+	
+	</target>
+	
+	<!-- Executes score generation script on sample of PFD files using the Addon database. -->
+	<target name="pfd_5" depends="pfd_4">
+		<description>Test on file containing candidate paths</description>
+								
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py -v -o pfd_5.txt -p /Users/rob/Documents/workspace/KnownSourceMatcher/test/pfdPaths.txt --psrcat psrcat_web_addon.db" />
+		</exec>
+		
+	</target>
+	
+	<!-- Executes score generation script on sample of PFD files using the Addon database. -->
+	<target name="validation_1" depends="pfd_5">
+		<description>Runs validation tests</description>
+		
+		<delete>
+			<fileset dir="${test.dir}">
+				<include name="Settings.txt" />
+			</fileset>
+		</delete>
+		
+		<copy file="${lib.dir}/Settings.txt" tofile="${test.dir}/Settings.txt"/>
+		
+		<!-- Run score generation script. -->
+		<exec dir="${test.dir}" executable="python" failonerror="true">
+			<arg line="Matcher.py --v -o validation_1.txt --psrcat psrcat_web_addon.db" />
+		</exec>
+			
+	</target>
+
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- 		EXECUTE THE TESTS  			-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	<!-- 					   				-->
+	
+	<!-- Executes score generation script on phcx files only. -->
+	<target name="phcx" depends="phcx_5"/>
+
+	<!-- Executes score generation script on pfd files only. -->
+	<target name="pfd" depends="pfd_5"/>
+	
+	<!-- Executes validation code only. -->
+	<target name="validation" depends="validation_1"/>
+	
+	<!-- 					       -->
+	<!--   PRIMARY BUILD TARGET    -->
+	<!-- 					       -->
+	
+	<target name="main" depends="phcx,pfd,validation" />
+	
+</project>
