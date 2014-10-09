@@ -72,7 +72,11 @@ class PulsarSiteScraper:
         
         # Helpers.
         self.utils = Utilities.Utilities(self.debug)
-        os.remove(self.outputPath)
+        
+        try:
+            os.remove(self.outputPath)
+        except OSError:
+            pass
                  
         # ******************************
         #
@@ -285,7 +289,12 @@ class PulsarSiteScraper:
                 elif(index == periodIndex):
                     #print "Period: ", td.contents[0]
                     tmp=self.non_decimal.sub('', str(tmp))
-                    src.setPeriod(self.filterText(str(tmp)))
+                    
+                    try:
+                        tempPeriod = float(self.filterText(str(tmp)))
+                        src.setPeriod(str(float(tempPeriod/1000)))
+                    except Exception:
+                        src.setPeriod(self.filterText(str(tmp)))
                     
                 elif(index == dmIndex):
                     #print "DM: ", td.contents[0]
@@ -373,7 +382,11 @@ class PulsarSiteScraper:
                                           
                 elif(index == periodIndex):
                     #print "Period: ", td.contents[0]
-                    src.setPeriod(td.contents[0])
+                    try:
+                        tempPeriod = float(td.contents[0])
+                        src.setPeriod(str(float(tempPeriod/1000)))
+                    except Exception:
+                        src.setPeriod(td.contents[0])
                     
                 elif(index == dmIndex):
                     #print "DM: ", td.contents[0]
@@ -454,7 +467,11 @@ class PulsarSiteScraper:
                                           
                 elif(index == periodIndex):
                     #print "Period: ", td.contents[0]
-                    src.setPeriod(td.contents[0])
+                    tempPeriod = float(td.contents[0])
+                    try:
+                        src.setPeriod(str(float(tempPeriod/1000)))
+                    except Exception:
+                        src.setPeriod(tempPeriod)
                     
                 elif(index == dmIndex):
                     #print "DM: ", td.contents[0]
@@ -543,7 +560,12 @@ class PulsarSiteScraper:
                     #print "Period: ", td.contents[0]
                     tmp = td.contents[0].encode('ascii',errors='ignore')
                     tmp =self.non_decimal.sub('', tmp)
-                    src.setPeriod(tmp)
+                    
+                    try:
+                        tempPeriod = float(tmp)
+                        src.setPeriod(str(float(tempPeriod/1000)))
+                    except Exception:
+                        src.setPeriod(tmp)
                     
                 elif(index == dmIndex):
                     #print "DM: ", td.contents[0]
@@ -632,7 +654,12 @@ class PulsarSiteScraper:
                     #print "Period: ", td.contents[0]
                     tmp = td.contents[0].encode('ascii',errors='ignore')
                     tmp=self.non_decimal.sub('', tmp)
-                    src.setPeriod(tmp)
+                    
+                    try:
+                        tempPeriod = float(tmp)
+                        src.setPeriod(str(float(tempPeriod/1000)))
+                    except Exception:
+                        src.setPeriod(tmp)
                     
                 elif(index == dmIndex):
                     #print "DM: ", td.contents[0]
@@ -713,7 +740,12 @@ class PulsarSiteScraper:
                 elif(index == periodIndex):
                     #print "Period: ", td.contents[0]
                     tmp=self.non_decimal.sub('', str(tmp))
-                    src.setPeriod(self.filterText(str(tmp)))
+                    
+                    try:
+                        tempPeriod = float(self.filterText(str(tmp)))
+                        src.setPeriod(str(float(tempPeriod/1000)))
+                    except Exception:
+                        src.setPeriod(self.filterText(str(tmp)))
                     
                 elif(index == dmIndex):
                     #print "DM: ", td.contents[0]

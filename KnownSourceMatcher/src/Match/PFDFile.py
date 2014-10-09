@@ -842,11 +842,17 @@ class PFD(CandidateFileInterface):
         
     # ****************************************************************************************************
     
-    def getPeriod(self):
+    def getPeriodMilliseconds(self):
         """
-        Returns the candidate period.
+        Returns the candidate period in milliseconds.
         """
         return self.bary_p1 *1000
+    
+    def getPeriod(self):
+        """
+        Returns the candidate period in seconds.
+        """
+        return self.bary_p1
     
     # ****************************************************************************************************
     
