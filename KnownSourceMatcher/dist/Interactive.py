@@ -42,7 +42,7 @@ class Interactive(Utilities):
         """
         Begins the process of interactively search a pulsar catalog.
         """
-        print "Running interactively, press 'x' to exit."
+        print "Running interactively, press '2' to exit."
         
         self.showMenu()
     
@@ -109,11 +109,11 @@ class Interactive(Utilities):
         period = 0.0
         while (period <= 0.0):
             try:
-                period = float(raw_input("Enter period(ms): "))
+                period = float(raw_input("Enter period(s): "))
             except:
                 period =0.0
         
-        print "Name          \tRA            \tDEC            \tPeriod(ms)\tDM"
+        print "Name          \tRA            \tDEC            \tPeriod(s)\tDM"
                 
         for key in self.db.orderedSourcesDict.keys():
             
@@ -146,7 +146,7 @@ class Interactive(Utilities):
             except:
                 dm =0.0
         
-        print "Name          \tRA            \tDEC            \tPeriod(ms)\t\tDM"
+        print "Name          \tRA            \tDEC            \tPeriod(s)\t\tDM"
                 
         for key in self.db.orderedSourcesDict.keys():
             
