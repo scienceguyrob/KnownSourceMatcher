@@ -39,10 +39,12 @@ class KnownSourceDB:
         
         """             
         self.path = path
-        self.harmonics = [1, 0.5, 0.25,0.125,0.0625]
+        self.harmonics = [1, 0.5, 0.3, 0.25, 0.2, 0.16, 0.125,0.0625,0.03125]
         self.possibleMatches = 0
         self.knownSourceCount = 0
         self.NaiveSearch = False
+        self.KnownRFIFile = "KnownRFI.txt"
+        self.telescope = settings.getTelescope()
         
         self.accuracy = settings.getAccuracy()
         self.radius = settings.getRadius()
@@ -220,10 +222,10 @@ class KnownSourceDB:
                     # more complicated than it is. All we are doing is 1) taking the
                     # single pieces of information out of an individual line describing
                     # a source, then 2) format it so that it can be added to a known
-                    # source object. I've had to do this, as the ATNF catalogue file
+                    # source object. I've had to do this, as the ATNF catalog file
                     # doesn't contain all the information we need (RAJ,DECJ,P0,F0 are often missing).
                     # So the only way to get this is to use the ANTF web form, which outputs
-                    # data in a different file format to that used in the catalogue file.
+                    # data in a different file format to that used in the catalog file.
                     
                     # Split the individual source entry, this produce a list.                  
                     sourceDetails = line.split()

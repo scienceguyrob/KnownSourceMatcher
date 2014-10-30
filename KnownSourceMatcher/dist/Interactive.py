@@ -31,6 +31,7 @@ class Interactive(Utilities):
         """
         Utilities.__init__(self,debugFlag)  
         self.db = db
+        self.harmonics = [1, 0.5, 0.3, 0.25, 0.2, 0.16, 0.125,0.0625,0.03125]
     
     # ******************************
     #
@@ -123,12 +124,13 @@ class Interactive(Utilities):
                 
                 acc = (float(self.db.accuracy)/100)*float(cand_period)
                 
-                # Evaluate the search condition
-                search_cond = float(cand_period) > (float(period) ) - float(acc) and\
-                             (float(cand_period) < (float(period) ) + float(acc))
-                
-                if(search_cond):
-                    print knownSource.shortStr()
+                for i in range(0,len(self.harmonics)):
+                    # Evaluate the search condition
+                    search_cond = float(cand_period) > (float(period) * float(self.harmonics[i])) - float(acc) and\
+                    (float(cand_period) < (float(period) * float(self.harmonics[i])) + float(acc))
+                    
+                    if(search_cond):
+                        print knownSource.shortStr() + " Harmonic: " + str(self.harmonics[i])
                     
             except ValueError as ve:
                 pass

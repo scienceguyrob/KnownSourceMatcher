@@ -1,3 +1,4 @@
 accuracy=1.0
 radius=0.5
 padding=36000
+telescope=Parkes
