@@ -39,10 +39,12 @@ class KnownSourceDB:
         
         """             
         self.path = path
-        self.harmonics = [1, 0.5, 0.25,0.125,0.0625]
+        self.harmonics = [1, 0.5, 0.3, 0.25, 0.2, 0.16, 0.125,0.0625,0.03125]
         self.possibleMatches = 0
         self.knownSourceCount = 0
         self.NaiveSearch = False
+        self.KnownRFIFile = "KnownRFI.txt"
+        self.telescope = settings.getTelescope()
         
         self.accuracy = settings.getAccuracy()
         self.radius = settings.getRadius()

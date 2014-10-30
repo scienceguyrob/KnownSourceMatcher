@@ -45,6 +45,7 @@ class Settings(Utilities):
         self.radius  = -1.0
         self.path    = "Settings.txt"
         self.padding = 3600
+        self.telescope = "Parkes"
 
     # ****************************************************************************************************
     
@@ -63,6 +64,7 @@ class Settings(Utilities):
         self.o("Accuracy = " + str(self.accuacy) + " (Percentage accuracy to match the period and harmonics to).")
         self.o("Radius   = " + str(self.radius)  + " (The radius in degrees to search).")
         self.o("Padding   = " + str(self.padding)  + " (The padding to use for advanced matching).")
+        self.o("Telescope   = " + str(self.padding)  + " (Instrument used for observations).")
          
     # ****************************************************************************************************
         
@@ -89,6 +91,7 @@ class Settings(Utilities):
         destinationFile.write(str("accuracy=0.5\n"))
         destinationFile.write(str("radius=0.5\n"))
         destinationFile.write(str("padding=3600\n"))
+        destinationFile.write(str("telescope=Parkes\n"))
         destinationFile.close()
         
         self.read()
@@ -116,7 +119,10 @@ class Settings(Utilities):
             self.radius = float(value)   
         elif(line.startswith("padding")):
             value = line.replace("padding=","")
-            self.padding = float(value)   
+            self.padding = float(value)
+        elif(line.startswith("telescope")):
+            value = line.replace("telescope=","")
+            self.telescope = float(value)    
     
     # ****************************************************************************************************
     
@@ -143,6 +149,12 @@ class Settings(Utilities):
         Gets the advanced matching padding value
         """
         return self.padding
+    
+    def getTelescope(self):
+        """
+        Gets the telescope assumed used during observations.
+        """
+        return self.telescope
     
     # ****************************************************************************************************
     
