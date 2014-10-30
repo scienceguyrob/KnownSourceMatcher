@@ -122,7 +122,7 @@ class Settings(Utilities):
             self.padding = float(value)
         elif(line.startswith("telescope")):
             value = line.replace("telescope=","")
-            self.telescope = float(value)    
+            self.telescope = str(value)    
     
     # ****************************************************************************************************
     
