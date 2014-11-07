@@ -1,10 +1,4 @@
 """
-Matches pulsar candidates against known sources from the ANTF pulsar catalog.
-Will match against other sources added to a a catalog file that have the same format.
-The PulsarSiteScraper.py script for instance extracts the details of new pulsars from
-specific web pages, and outputs their details in a parseable format (when appended to
-the catalog file passed to this script.
-
 Designed to run on python 2.4 or later. 
 
 Rob Lyon <robert.lyon@cs.man.ac.uk>
@@ -28,8 +22,9 @@ import Utilities
 
 class Filter:
     """                
-    Begins the process of matching by processing command line options
-    and executing the correct commands.
+    Given a source directory filled with candidates and a target directory, this
+    script reads the csv file output by the Matcher.py script, and copies candidates from the
+    source directory to the target directory - ONLY IF - they are not recorded in the CSV file.
     
     """
     

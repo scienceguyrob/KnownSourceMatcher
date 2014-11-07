@@ -274,7 +274,7 @@ class Interactive(Utilities):
                     
                     # If user has chosen a match, then record it.        
                     if(choice >= 0):
-                        detail_a = file + "," + RAJ + "," + DECJ + "," + str(P0) + "," + str(DM) + ","
+                        detail_a = str(os.path.join(root, file)) + "," + RAJ + "," + DECJ + "," + str(P0) + "," + str(DM) + ","
                         detail_b = matches[choice].shortStrCSV() + "\n"
                         detail_c = detail_a+detail_b
                         self.appendToFile(outputFile, detail_c)
