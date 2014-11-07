@@ -13,6 +13,11 @@ import PFDFile as pfd
 from Utilities import Utilities
 from xml.dom import minidom
 
+# For viewing candidates.
+from PIL import Image  # @UnresolvedImport - Ignore this comment, simply stops my IDE complaining.
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
 # ******************************
 #
 # CLASS DEFINITION
@@ -38,6 +43,8 @@ class Interactive(Utilities):
         Utilities.__init__(self,debugFlag)  
         self.db = db
         self.harmonics = [1, 0.5, 0.3, 0.25, 0.2, 0.16, 0.142, 0.125, 0.111, 0.1, 0.0909,0.0833,0.0769,0.0714,0.0666,0.0625,0.03125,0.015625]
+        self.width          = 10 # The width of the image viewing panel.
+        self.height         = 8  # The height of the image viewing panel.
     
     # ******************************
     #
@@ -165,6 +172,7 @@ class Interactive(Utilities):
         P0   = 0
         DM   = 0
         matches = []
+        imageShown = False
                   
         # Search the supplied directory recursively.    
         for root, directories, files in os.walk(directory):
@@ -198,6 +206,16 @@ class Interactive(Utilities):
                     
                     # Look for potential matches.
                     matches=self.searchPeriod(P0)
+                    
+                    pngPath = os.path.join(root, file) + ".png"
+                    
+                    if(self.fileExists(pngPath)):
+                        fig=plt.figure(figsize=(self.width,self.height))# @UnusedVariable
+                        plt.ion()
+                        candidateImage = mpimg.imread(pngPath)
+                        plt.imshow(candidateImage, aspect='auto')
+                        plt.show()
+                        imageShown = True
                 
                 # If we have a PFD candidate    
                 elif file.endswith('.pfd'):
@@ -252,6 +270,21 @@ class Interactive(Utilities):
                             separationFilteredDetails[source.sourceName]=source.shortStr() + "\t" + '{:<15}'.format(str(harmonic)) + "\t" + '{:<15}'.format(str(angularSeparation))
                             #print str(count) + "\t" + source.shortStr() + "\t" + '{:<15}'.format(str(reasonForMatch)) + "\t" + '{:<15}'.format(str(angularSeparation))
                     
+                    # Add an extra candidate in case the user would like to match to RFI.
+                    # This is a quick messy fix to allow you to match an RFI candidate explicitly
+                    # to RFI, if any such RFI candidates squeezed through previous filtering steps.
+                    rfi = KnownSource.KnownSource("RFI")
+                    rfi.angularSeparation = 100000
+                    rfi.harmonic = 1
+                    rfi.addParameter("PSRJ    RFI    0    0")
+                    rfi.addParameter("RAJ    00:00:00    0    0")
+                    rfi.addParameter("DECJ   00:00:00    0    0")
+                    rfi.addParameter("P0    0    0    0")
+                    rfi.addParameter("F0    0    0    0")
+                    rfi.addParameter("DM    0    0    0")
+                    separationFilteredMatches["RFI"]= rfi
+                    separationFilteredDetails["RFI"]= rfi.shortStr() + "\t" + '{:<15}'.format(str("RFI")) + "\t" + '{:<15}'.format(str("NaN"))
+                    
                     # Now order according to location in the sky.    
                     orderedSourcesDict = ordereddict.OrderedDict()
                     for s in (sorted(separationFilteredMatches.values(), key=operator.attrgetter('angularSeparation'))):
@@ -264,8 +297,8 @@ class Interactive(Utilities):
                         count+=1
                         matches.append(value) # Re-populate matches.
                         print str(count) + "\t" + separationFilteredDetails[key]                   
-                        
-                    print "Which match to record (0 for none, otherwise choose the appropriate number)."
+            
+                    print "Which match to record (0 for none, last in the list for RFI, otherwise choose the appropriate number)."
                     
                     choice = -2
                     while (choice <= -2 or choice >=len(separationFilteredMatches)):
@@ -285,6 +318,11 @@ class Interactive(Utilities):
                         detail_b = matches[choice].shortStrCSV() + "," + str(matches[choice].harmonic) + "," + str(matches[choice].angularSeparation) + "\n"
                         detail_c = detail_a+detail_b
                         self.appendToFile(outputFile, detail_c)
+                    
+                    if(imageShown):
+                        plt.clf()
+                        plt.close()
+                        imageShwon = False
                     
         
         print "Compared ", count , " candidates to ", len(self.db.orderedSourcesDict), " known sources. "
