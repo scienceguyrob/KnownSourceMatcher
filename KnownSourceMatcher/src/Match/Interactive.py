@@ -141,7 +141,7 @@ class Interactive(Utilities):
                 open(outputFile, 'a').close()
                 
                 if(self.fileExists(outputFile)):
-                    self.appendToFile(outputFile, "Manual match log,,,,,,,,,\n")
+                    self.appendToFile(outputFile, "Manual match log,,,,,,,,',\n")
                     self.appendToFile(outputFile, "Candidate,RAJ,DECJ,P0,DM,Known Source,RAJ,DECJ,P0,DM,Harmonic,Angular Separation\n")
                 
             except:
