@@ -37,7 +37,7 @@ class Interactive(Utilities):
         """
         Utilities.__init__(self,debugFlag)  
         self.db = db
-        self.harmonics = [1, 0.5, 0.3, 0.25, 0.2, 0.16, 0.125,0.0625,0.03125]
+        self.harmonics = [1, 0.5, 0.3, 0.25, 0.2, 0.16, 0.142, 0.125, 0.111, 0.1, 0.0909,0.0833,0.0769,0.0714,0.0666,0.0625,0.03125,0.015625]
     
     # ******************************
     #
@@ -142,7 +142,7 @@ class Interactive(Utilities):
                 
                 if(self.fileExists(outputFile)):
                     self.appendToFile(outputFile, "Manual match log,,,,,,,,,\n")
-                    self.appendToFile(outputFile, "Candidate,RAJ,DECJ,P0,DM,Known Source,RAJ,DECJ,P0,DM\n")
+                    self.appendToFile(outputFile, "Candidate,RAJ,DECJ,P0,DM,Known Source,RAJ,DECJ,P0,DM,Harmonic,Angular Separation\n")
                 
             except:
                 outputFile = ""
@@ -245,9 +245,11 @@ class Interactive(Utilities):
                         angularSeparation = self.findAngularSep(source.getParameterAtIndex("RAJ", 0),source.getParameterAtIndex("DECJ",0), RAJ, DECJ)
                         if(angularSeparation <= maxAngSep ):
                             count+=1
+                            harmonic = int(1.0/float(reasonForMatch))
+                            source.harmonic = harmonic
                             source.angularSeparation = angularSeparation
                             separationFilteredMatches[source.sourceName]= source
-                            separationFilteredDetails[source.sourceName]=source.shortStr() + "\t" + '{:<15}'.format(str(reasonForMatch)) + "\t" + '{:<15}'.format(str(angularSeparation))
+                            separationFilteredDetails[source.sourceName]=source.shortStr() + "\t" + '{:<15}'.format(str(harmonic)) + "\t" + '{:<15}'.format(str(angularSeparation))
                             #print str(count) + "\t" + source.shortStr() + "\t" + '{:<15}'.format(str(reasonForMatch)) + "\t" + '{:<15}'.format(str(angularSeparation))
                     
                     # Now order according to location in the sky.    
@@ -268,7 +270,7 @@ class Interactive(Utilities):
                     choice = -2
                     while (choice <= -2 or choice >=len(separationFilteredMatches)):
                         try:
-                            c = raw_input("Enter choice: ")
+                            c = raw_input("Enter choice (or x for exit): ")
                             
                             if(c=='x'): # User wants to exit.
                                 return True
@@ -280,7 +282,7 @@ class Interactive(Utilities):
                     # If user has chosen a match, then record it.        
                     if(choice >= 0):
                         detail_a = str(os.path.join(root, file)) + "," + RAJ + "," + DECJ + "," + str(P0) + "," + str(DM) + ","
-                        detail_b = matches[choice].shortStrCSV() + "\n"
+                        detail_b = matches[choice].shortStrCSV() + "," + str(matches[choice].harmonic) + "," + str(matches[choice].angularSeparation) + "\n"
                         detail_c = detail_a+detail_b
                         self.appendToFile(outputFile, detail_c)
                     

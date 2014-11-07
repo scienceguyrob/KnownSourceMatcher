@@ -54,6 +54,8 @@ class KnownSource:
         
         # Added as a quick fix to ordering by angular separation when manually matching
         self.angularSeparation = 0
+        # Added as a quick fix to retain harmonic value when using the interactive matching approach.
+        self.harmonic = 0
         
     # ******************************
     #
