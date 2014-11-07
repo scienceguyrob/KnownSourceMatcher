@@ -123,7 +123,9 @@ class Interactive(Utilities):
             
         while (not os.path.isdir(directory)):
             try:
-                directory = str(raw_input("Enter path to directory containing candidates to match: "))
+                directory = str(raw_input("Enter path to directory containing candidates to match (or x to exit): "))
+                if(directory=='x'): # User wants to exit.
+                    return True
             except:
                 directory = ""
         
@@ -131,7 +133,10 @@ class Interactive(Utilities):
         
         while (not os.path.exists(outputFile)):
             try:
-                outputFile = str(raw_input("Enter a valid file path to write matches to: "))
+                outputFile = str(raw_input("Enter a valid file path to write matches to (or x to exit): "))
+                
+                if(outputFile=='x'): # User wants to exit.
+                    return True
                 
                 open(outputFile, 'a').close()
                 
