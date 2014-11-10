@@ -322,7 +322,7 @@ class Interactive(Utilities):
                     if(imageShown):
                         plt.clf()
                         plt.close()
-                        imageShwon = False
+                        imageShown = False
                     
         
         print "Compared ", count , " candidates to ", len(self.db.orderedSourcesDict), " known sources. "
