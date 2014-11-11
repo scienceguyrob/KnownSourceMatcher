@@ -89,6 +89,10 @@ class Matcher:
         
         utils.o("Loading Pulsar ATNF Catalog:")
         
+        if(utils.fileExists(self.psrcat)==False):
+            print "You haven't specified a pulsar catalog to use (via the --psrcat flag), exiting!"
+            sys.exit()
+            
         # Build the settings object
         settings = Settings.Settings(self.debug)
         settings.load()

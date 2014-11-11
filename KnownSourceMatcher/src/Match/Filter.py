@@ -1,4 +1,10 @@
 """
+Matches pulsar candidates against known sources from the ANTF pulsar catalog.
+Will match against other sources added to a a catalog file that have the same format.
+The PulsarSiteScraper.py script for instance extracts the details of new pulsars from
+specific web pages, and outputs their details in a parsable format (when appended to
+the catalog file passed to this script.
+
 Designed to run on python 2.4 or later. 
 
 Rob Lyon <robert.lyon@cs.man.ac.uk>
@@ -22,9 +28,8 @@ import Utilities
 
 class Filter:
     """                
-    Given a source directory filled with candidates and a target directory, this
-    script reads the csv file output by the Matcher.py script, and copies candidates from the
-    source directory to the target directory - ONLY IF - they are not recorded in the CSV file.
+    Begins the process of matching by processing command line options
+    and executing the correct commands.
     
     """
     
@@ -106,6 +111,8 @@ class Filter:
                     
                     pathsToAvoid = self.read(self.path)
                     
+                    #print "Candidates to not copy to destination directory:\n" , pathsToAvoid
+                    
                     candidateFiles = [ f for f in listdir(self.inputDir) if isfile(join(self.inputDir,f)) ]
                     
                     #print "Paths to avoid:"
@@ -114,15 +121,24 @@ class Filter:
                     #print candidateFiles
                     
                     refusals = 0
-                    allows = 0
+                    allows   = 0
+                    
                     for c in candidateFiles:
+                        
                         if(c.endswith(".phcx.gz") or c.endswith(".phcx.gz.png")):
-                            fullpath       = self.inputDir+"/"+c
-                            fullOutputPath = self.outputDir+"/"+c
+                            
+                            fullpath       = self.inputDir  + "/" + c
+                            fullOutputPath = self.outputDir + "/" + c
+                            
+                            #print "Checking file:" , fullpath
+                            
                             if(fullpath.replace(".png","") in pathsToAvoid):
+                                
                                 refusals+=1
                                 continue
+                            
                             else:
+                                
                                 #print "Allow: ", fullpath
                                 shutil.copyfile(fullpath, fullOutputPath)
                                 allows+=1
