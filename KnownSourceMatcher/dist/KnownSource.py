@@ -52,6 +52,9 @@ class KnownSource:
         self.sourceName = name
         self.sortAttribute = 0
         
+        # Added as a quick fix to ordering by angular separation when manually matching
+        self.angularSeparation = 0
+        
     # ******************************
     #
     # UTILITY FUNCTIONS.
@@ -226,7 +229,24 @@ class KnownSource:
         DM = self.getParameterAtIndex("DM",0)
             
         return '{:<10}'.format(self.sourceName) + "\t" + '{:<12}'.format(str(RAJ)) + "\t" + '{:<13}'.format(str(DECJ)) + "\t" + '{:<20}'.format(str(P0)) + "\t" + '{:<15}'.format(str(DM)) 
-
+    
+    def shortStrCSV(self):
+        """
+        Overridden method that provides a neater string representation
+        of this class. This is useful when writing these objects to a file
+        or the terminal. This version pads the source variable values to create 
+        uniform outputs.
+        
+        """
+        
+        # Extract the key parameters.
+        RAJ = self.getParameterAtIndex("RAJ", 0)      
+        DECJ = self.getParameterAtIndex("DECJ",0)        
+        P0 = self.getParameterAtIndex("P0",0)       
+        DM = self.getParameterAtIndex("DM",0)
+            
+        return self.sourceName + "," + str(RAJ) + "," + str(DECJ) + "," + str(P0) + "," + str(DM) 
+    
     # ******************************
     
     def debug(self):
