@@ -78,14 +78,13 @@ Web:        http://www.scienceguyrob.com
 
 The application script Matcher.py can be executed via:
 	
-	<i>python Matcher.py</i>
+<i>python Matcher.py</i>
 	
-	The script accepts a number of arguments. It requires three of these to execute, and accepts
-	another three as optional.
+The script accepts a number of arguments. It requires three of these to execute, and accepts another three as optional.
 	
-	Required Arguments
+Required Arguments
 	
-	<table>
+<table>
   <tr>
     <th>Flag</th>
     <th>Type</th>
@@ -108,7 +107,7 @@ The application script Matcher.py can be executed via:
   </tr>
 </table>
 
-	Optional Arguments
+Optional Arguments
 
 <table>
   <tr>
