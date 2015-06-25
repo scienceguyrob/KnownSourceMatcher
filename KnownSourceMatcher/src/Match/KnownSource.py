@@ -1,4 +1,29 @@
 """
+This file is part of the KnownSourceMatcher.
+
+KnownSourceMatcher is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+KnownSourceMatcher is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with KnownSourceMatcher.  If not, see <http://www.gnu.org/licenses/>.
+
+File name:    KnownSource.py
+Created:      February 7th, 2014
+Author:       Rob Lyon
+ 
+Contact:    rob@scienceguyrob.com or robert.lyon@postgrad.manchester.ac.uk
+Web:        <http://www.scienceguyrob.com> or <http://www.cs.manchester.ac.uk> 
+            or <http://www.jb.man.ac.uk>
+            
+This code runs on python 2.4 or later.
+
 Represents a known radio source from the ANTF catalog. As the ANTF
 catalog file is parsed, KnownSource objects will be created from each
 catalog entry. This object retains all the information from the catalog
@@ -7,9 +32,8 @@ file.
 Based on source code provided by Ben Stappers <Ben.Stappers@manchester.ac.uk>,
 and Dan Thornton <dan.thornton-2@postgrad.manchester.ac.uk>.
 
-By Rob Lyon <robert.lyon@cs.man.ac.uk>
-
 """
+
 import math
 
 # ******************************

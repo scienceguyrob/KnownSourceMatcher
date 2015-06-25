@@ -1,16 +1,37 @@
 """
-Extracts pulsar information from web pages. Still requires some manual work, since the pages being
-parsed are often not correctly formatted!!! So always check the file output by this script,
-particularly with respect to those sources loaded from HTRU South web source (HTML not regular).
+This file is part of the KnownSourceMatcher.
 
-Designed to run on python 2.4 or later. 
+KnownSourceMatcher is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Rob Lyon <robert.lyon@cs.man.ac.uk>
+KnownSourceMatcher is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with KnownSourceMatcher.  If not, see <http://www.gnu.org/licenses/>.
+
+File name:    PulsarSiteScraper.py
+Created:      February 7th, 2014
+Author:       Rob Lyon
  
+Contact:    rob@scienceguyrob.com or robert.lyon@postgrad.manchester.ac.uk
+Web:        <http://www.scienceguyrob.com> or <http://www.cs.manchester.ac.uk> 
+            or <http://www.jb.man.ac.uk>
+            
+This code runs on python 2.4 or later.
+
+This script contains functions for automatically extracting pulsar source information from web pages. 
+It still requires some manual work, since the pages being parsed are often not correctly formatted!!!
+So always check the file output by this script, particularly with respect to those sources loaded from
+the HTRU South web source (HTML is irregular).
+
 """
 
 # Command Line processing Imports:
-from optparse import OptionParser
 import datetime, sys, urllib2
 from bs4 import BeautifulSoup
 import re, os
@@ -61,13 +82,12 @@ class PulsarSiteScraper:
         
         # Update variables with command line parameters.
         self.dataSources    = [self.lotaas,self.gbt_drift,self.palfa,self.ao_drift,self.htru_south,self.superb]
-        #self.dataSources    = [self.superb]
         self.debug          = True
         self.outputPath     = "WebSourceParsedOutput1.txt"
         
         # Parsing variables.
         self.ignore = True
-        self.cand = 3000
+        self.cand   = 3000
         self.non_decimal = re.compile(r'[^\d.]+')
         
         # Helpers.
@@ -171,15 +191,15 @@ class PulsarSiteScraper:
         Basic text filtering to remove any orphaned HTML tags.
         """
         
-        t_1 = text.decode('ascii',errors='ignore')
-        t_2 = t_1.replace("<font size=\"2\">","")
-        t_3 = t_2.replace("</font>","")
-        t_4 = t_3.replace("<br>","")
-        t_5 = t_4.replace("<br/>","")
-        t_6 = t_5.replace("<strike>","")
-        t_7 = t_6.replace("</strike>","")
-        t_8 = t_7.replace("<span>","")
-        t_9 = t_8.replace("</span>","")
+        t_1  = text.decode('ascii',errors='ignore')
+        t_2  = t_1.replace("<font size=\"2\">","")
+        t_3  = t_2.replace("</font>","")
+        t_4  = t_3.replace("<br>","")
+        t_5  = t_4.replace("<br/>","")
+        t_6  = t_5.replace("<strike>","")
+        t_7  = t_6.replace("</strike>","")
+        t_8  = t_7.replace("<span>","")
+        t_9  = t_8.replace("</span>","")
         t_10 = t_9.replace("<i>","")
         t_11 = t_10.replace("</i>","")
         t_12 = t_11.replace("<br/>","")
@@ -224,7 +244,7 @@ class PulsarSiteScraper:
         decIndex    = -1
         
         tables = soup.findAll('table')
-        rows = tables[2].findAll('tr')
+        rows   = tables[2].findAll('tr')
         
         # First pre-process to find the columns containing useful information.
         for tr in rows:
@@ -258,8 +278,8 @@ class PulsarSiteScraper:
         
         for tr in rows:
             
-            src = PulsarSiteScraper.Source()
-            cols = tr.findAll('td')
+            src   = PulsarSiteScraper.Source()
+            cols  = tr.findAll('td')
             index = 0
             
             for td in cols:

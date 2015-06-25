@@ -1,14 +1,35 @@
 """
+This file is part of the KnownSourceMatcher.
+
+KnownSourceMatcher is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+KnownSourceMatcher is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with KnownSourceMatcher.  If not, see <http://www.gnu.org/licenses/>.
+
+File name:    Matcher.py
+Created:      February 7th, 2014
+Author:       Rob Lyon
+ 
+Contact:    rob@scienceguyrob.com or robert.lyon@postgrad.manchester.ac.uk
+Web:        <http://www.scienceguyrob.com> or <http://www.cs.manchester.ac.uk> 
+            or <http://www.jb.man.ac.uk>
+            
+This code runs on python 2.4 or later.
+
 Matches pulsar candidates against known sources from the ANTF pulsar catalog.
-Will match against other sources added to a a catalog file that have the same format.
+It Will match against other sources added to a catalog file that has the same format.
 The PulsarSiteScraper.py script for instance extracts the details of new pulsars from
 specific web pages, and outputs their details in a parseable format (when appended to
-the catalog file passed to this script.
+the catalog file passed to this script).
 
-Designed to run on python 2.4 or later. 
-
-Rob Lyon <robert.lyon@cs.man.ac.uk>
- 
 """
 
 # Command Line processing Imports:
@@ -82,7 +103,7 @@ class Matcher:
         self.validate       = args.validator
         
         # Non-user defined variables
-        self.log      = "log.txt"
+        self.log = "log.txt"
         
         # Helpers.
         utils = Utilities.Utilities(self.debug)

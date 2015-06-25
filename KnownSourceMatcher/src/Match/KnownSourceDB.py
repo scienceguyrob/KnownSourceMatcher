@@ -1,18 +1,40 @@
 """
+This file is part of the KnownSourceMatcher.
+
+KnownSourceMatcher is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+KnownSourceMatcher is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with KnownSourceMatcher.  If not, see <http://www.gnu.org/licenses/>.
+
+File name:    KnownSourceDB.py
+Created:      February 7th, 2014
+Author:       Rob Lyon
+ 
+Contact:    rob@scienceguyrob.com or robert.lyon@postgrad.manchester.ac.uk
+Web:        <http://www.scienceguyrob.com> or <http://www.cs.manchester.ac.uk> 
+            or <http://www.jb.man.ac.uk>
+            
+This code runs on python 2.4 or later.
+
 Compares pulsar candidates to known sources from the ANTF pulsar catalog.
 First parses the catalog before comparisons can take place. Alternatively
-this class with parse the output from the ANTF web interface in "Long with errors"
+this class will parse the output from the ANTF web interface in "Long with errors"
 format (provided you have saved this output to a file and passed in the path
 to this file).
 
 Based on source code provided by Ben Stappers <Ben.Stappers@manchester.ac.uk>,
 and Dan Thornton <dan.thornton-2@postgrad.manchester.ac.uk>.
 
-By Rob Lyon <robert.lyon@cs.man.ac.uk>
-
 """
 
-# TODO: EDIT 2:  Added ordereddict here to make compatible with Python 2.4.
 import ordereddict, collections, copy, KnownSource, math, operator, os, string, numpy as np
 
 # ******************************

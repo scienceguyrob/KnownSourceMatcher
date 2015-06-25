@@ -1,23 +1,31 @@
 """
-This code runs on python 2.4 or later. Here we define an interface for the operations
-that can be run on profile data loaded in from phcx or pfd files.
+This file is part of the KnownSourceMatcher.
 
-By Rob Lyon <robert.lyon@cs.man.ac.uk>
+KnownSourceMatcher is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-+-----------------------------------------------------------------------------------------+
-+                       PLEASE RECORD ANY MODIFICATIONS YOU MAKE BELOW                    +
-+-----------------------------------------------------------------------------------------+
-+ Revision |   Author    | Description                                       |    DATE    +
-+-----------------------------------------------------------------------------------------+
+KnownSourceMatcher is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- Revision:0    Rob Lyon    Initial version of the the code.                    10/02/2014
+You should have received a copy of the GNU General Public License
+along with KnownSourceMatcher.  If not, see <http://www.gnu.org/licenses/>.
 
+File name:    ProfileOperationsInterface.py
+Created:      February 10th, 2014
+Author:       Rob Lyon
+ 
+Contact:    rob@scienceguyrob.com or robert.lyon@postgrad.manchester.ac.uk
+Web:        <http://www.scienceguyrob.com> or <http://www.cs.manchester.ac.uk> 
+            or <http://www.jb.man.ac.uk>
+            
+This code runs on python 2.4 or later.
 
-
-+-----------------------------------------------------------------------------------------+
-
-NOTE: You can go directly to a revision by searching the text below i.e. search for "Revision:2b"
-
+This file defines an interface for the operations that can be run on pulsar profile
+data loaded from phcx or pfd files.
 """
 
 # Scipy/numpy imports.
@@ -35,7 +43,7 @@ from Utilities import Utilities
     
 class ProfileOperationsInterface(Utilities):
     """
-    Basically an interface that defines the functions which must be implemented in order
+    An interface that defines the functions which must be implemented in order
     to produce candidate scores.
     
     If you want to create a new score generation method simply create a sub-class of this file,
