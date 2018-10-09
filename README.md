@@ -1,4 +1,4 @@
-KnownSourceMatcher
+Known Source Matcher
 ==================
 
 [![DOI](https://zenodo.org/badge/24718029.svg)](https://zenodo.org/badge/latestdoi/24718029)
